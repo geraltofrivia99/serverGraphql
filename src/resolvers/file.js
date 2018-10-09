@@ -7,13 +7,19 @@ export default {
     files: async (parent, args, { models }) => {
       return await models.File.findAll();
     },
+    userFiles: async (parent, {userId}, { models }) => {
+      return await models.File.findAll({
+        where: {userId}
+      });
+    },
   },
   Mutation: {
-    createFile: async (parent, { url, userId, type }, { models }) => {
+    createFile: async (parent, { url, userId, type, name }, { models }) => {
       return await models.File.create({
         url,
         userId,
-        type
+        type,
+        name
       });
     },
     deleteFile: combineResolvers(

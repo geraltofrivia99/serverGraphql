@@ -17,11 +17,25 @@ const file = (sequelize, DataTypes) => {
           msg: 'Not doesnt exist',
         },
       },
-    }
+    },
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Not doesnt exist',
+        },
+      },
+    },
   });
 
   Files.associate = models => {
-    Files.belongsTo(models.User);
+    Files.belongsTo(models.User, {
+      foreignKey: {
+        name: 'userId',
+        field: 'user_id',
+      },
+    });
   };
 
   return Files;

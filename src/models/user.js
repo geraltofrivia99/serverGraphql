@@ -34,7 +34,23 @@ const user = (sequelize, DataTypes) => {
 
   User.associate = models => {
     User.hasMany(models.Message, { onDelete: 'CASCADE' });
-    User.hasMany(models.File, { onDelete: 'CASCADE' })
+    User.hasMany(models.File, { onDelete: 'CASCADE' });
+    //  User.belongsToMany(models.Message, { 
+    //     through: models.Member,
+    //     onDelete: 'CASCADE',
+    //     foreignKey: {
+    //       name: 'userId',
+    //       field: 'user_id',
+    //     },
+    //   });
+    //   User.belongsToMany(models.File, {
+    //     through: models.Member,
+    //     onDelete: 'CASCADE',
+    //     foreignKey: {
+    //       name: 'userId',
+    //       field: 'user_id',
+    //     },
+    //   });
   };
   // User.associate = models => {
   //   User.hasMany(models.File, { onDelete: 'CASCADE' });

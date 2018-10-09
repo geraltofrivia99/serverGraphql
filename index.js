@@ -98,7 +98,8 @@ const createUsersWithMessages = async date => {
         {
           url: 'dsadas/dsadsae/ewqwe/ewqeqw',
           createdAt: date.setSeconds(date.getSeconds() + 1),
-          type: 'Doc'
+          type: 'Doc',
+          name: 'new File'
         },
       ],
     },
@@ -126,17 +127,20 @@ const createUsersWithMessages = async date => {
         {
           url: 'dsadas/dsadsae/ewqwe',
           createdAt: date.setSeconds(date.getSeconds() + 1),
-          type: 'Doc'
+          type: 'Doc',
+          name: 'filic'
         },
         {
           url: 'dsadas/dsadsae/gdfgdf',
           createdAt: date.setSeconds(date.getSeconds() + 1),
-          type: 'Doc'
+          type: 'Doc',
+          name: 'hahha'
         },
         {
           url: 'dsadas/dsadsae/eqeqwwqwe',
           createdAt: date.setSeconds(date.getSeconds() + 1),
-          type: 'Doc'
+          type: 'Doc',
+          name: '4toto'
         },
       ]
     },
