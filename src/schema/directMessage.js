@@ -6,7 +6,7 @@ export default gql`
   }
 
   extend type Mutation {
-    createDirectMessage(reciverId)
+    createDirectMessage(reciverId: Int!, text: String!): Boolean!
   }
 
   type DirectMessage {

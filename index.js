@@ -14,8 +14,7 @@ const app = express();
 app.use(cors('*'));
 
 const getMe = async req => {
-  const token = req.headers['x'];
-  console.log('privet', req.headers['authorization'])
+  const token = req.headers['x-token'];
   if (token) {
     try {
       // const d = await jwt.verify(token, 'wr3r23fwfwefwekwself.2456342.dawqdq');
