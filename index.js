@@ -14,11 +14,11 @@ const app = express();
 app.use(cors('*'));
 
 const getMe = async req => {
-  const token = req.headers['x-token'];
+  const token = req.headers['authorization'];
+
   if (token) {
     try {
       // const d = await jwt.verify(token, 'wr3r23fwfwefwekwself.2456342.dawqdq');
-      // console.log(d)
       return await jwt.verify(token, 'wr3r23fwfwefwekwself.2456342.dawqdq');
     } catch (e) {
       throw new AuthenticationError(

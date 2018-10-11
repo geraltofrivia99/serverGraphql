@@ -4,6 +4,7 @@ const sequelize = new Sequelize(
   'trash', 'postgres', 'postgres',
   {
     dialect: 'postgres',
+    operatorsAliases: Sequelize.Op,
   },
 );
 
@@ -20,6 +21,9 @@ Object.keys(models).forEach(key => {
     models[key].associate(models);
   }
 });
+
+models.sequelize = sequelize;
+models.Sequelize = Sequelize;
 
 export { sequelize };
 

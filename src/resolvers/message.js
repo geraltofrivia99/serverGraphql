@@ -19,7 +19,7 @@ export default {
       ? {
           where: {
             createdAt: {
-              [Sequelize.Op.lt]: fromCursorHash(cursor),
+              [models.sequelize.Op.lt]: fromCursorHash(cursor),
             },
           },
         }
@@ -29,7 +29,7 @@ export default {
         limit: limit + 1,
         ...cursorOptions,
       });
-      console.log(me);
+      
       const hasNextPage = messages.length > limit;
       const edges = hasNextPage ? messages.slice(0, -1) : messages;
       return {
@@ -51,7 +51,7 @@ export default {
     createMessage: combineResolvers(
       // isAuthenticated,
       async (parent, { text, userId }, { models, me }) => {
-        
+        console.log('me', me)
         const message = await models.Message.create({
           text,
           userId: userId,

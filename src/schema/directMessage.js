@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    directMessages: [DirectMessage!]!
+    directMessages(otherUserId: Int!): [DirectMessage!]!
   }
 
   extend type Mutation {
@@ -12,7 +12,8 @@ export default gql`
   type DirectMessage {
     id: ID!
     text: String!
-    sender: User!
+    sender: String!
     reciverId: Int!
+    createdAt: String!
   }
   `;
