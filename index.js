@@ -15,7 +15,7 @@ app.use(cors('*'));
 
 const getMe = async req => {
   const token = req.headers['authorization'];
-
+  
   if (token) {
     try {
       // const d = await jwt.verify(token, 'wr3r23fwfwefwekwself.2456342.dawqdq');

@@ -79,7 +79,7 @@ export default {
       }
 
       return { 
-        token: createToken(user, secret, '30m'),
+        token: createToken(user, secret, '24h'),
         user,
         ok: true, 
       };
