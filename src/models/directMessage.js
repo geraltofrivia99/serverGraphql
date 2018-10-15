@@ -6,8 +6,8 @@ const directMessage = (sequelize, DataTypes) => {
   DirectMessage.associate = models => {
     DirectMessage.belongsTo(models.User, {
       foreignKey: {
-        name: 'reciverId',
-        field: 'reciver_id'
+        name: 'receiverId',
+        field: 'receiver_id'
       }
     });
     DirectMessage.belongsTo(models.User, {

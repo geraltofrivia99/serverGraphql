@@ -27,6 +27,19 @@ const getMe = async req => {
     }
   }
 };
+const getMeConnect = async connection => {
+  const token = connection.context['authorization'];
+  if (token) {
+    try {
+      // const d = await jwt.verify(token, 'wr3r23fwfwefwekwself.2456342.dawqdq');
+      return await jwt.verify(token, 'wr3r23fwfwefwekwself.2456342.dawqdq');
+    } catch (e) {
+      throw new AuthenticationError(
+        'Your session expired. Sign in again.',
+      );
+    }
+  }
+};
 
 const server = new ApolloServer({
   typeDefs: schema,
@@ -45,15 +58,19 @@ const server = new ApolloServer({
   },
   context: async ({ req, connection }) => {
     if (connection) {
+      const me = await getMeConnect(connection);
+      
       return {
         models,
+        me,
+        secret: 'wr3r23fwfwefwekwself.2456342.dawqdq'
       };
     }
     if (req) {
       const me = await getMe(req);
         return {
-          models,
           me,
+          models,
           secret: 'wr3r23fwfwefwekwself.2456342.dawqdq'
     };
     }
@@ -142,6 +159,31 @@ const createUsersWithMessages = async date => {
           name: '4toto'
         },
       ]
+    },
+    {
+      include: [models.Message, models.File],
+    },
+  );
+  await models.User.create(
+    {
+      username: 'nikita',
+      email: 'nikita@robin.com',
+      password: 'nikita99',
+      role: 'ADMIN',
+      messages: [
+        {
+          text: 'privet vsem',
+          createdAt: date.setSeconds(date.getSeconds() + 1),
+        },
+      ],
+      files: [
+        {
+          url: 'dsadas/dsadsae/ewqwe/ewqeqw',
+          createdAt: date.setSeconds(date.getSeconds() + 1),
+          type: 'Doc',
+          name: 'new File'
+        },
+      ],
     },
     {
       include: [models.Message, models.File],

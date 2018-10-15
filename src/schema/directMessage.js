@@ -6,14 +6,17 @@ export default gql`
   }
 
   extend type Mutation {
-    createDirectMessage(reciverId: Int!, text: String!): Boolean!
+    createDirectMessage(receiverId: Int!, text: String!): Boolean!
+  }
+  extend type Subscription {
+    newDirectMessage(userId: Int!): DirectMessage!
   }
 
   type DirectMessage {
     id: ID!
     text: String!
-    sender: String!
-    reciverId: Int!
+    sender: User!
+    receiverId: Int!
     createdAt: String!
   }
   `;

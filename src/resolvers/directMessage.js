@@ -1,9 +1,20 @@
 // import { combineResolvers } from 'graphql-resolvers';
 // import pubsub, { EVENTS } from '../subscription';
 // import { isAuthenticated, isMessageOwner } from './auth';
-
+import pubsub, { EVENTS } from '../subscription';
+import { withFilter } from 'graphql-subscriptions';
 
 export default {
+  Subscription: {
+    newDirectMessage: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(EVENTS.DIRECT.CREATED),
+        (payload, args, {me}) => 
+              (payload.senderId === me.id && payload.receiverId === args.userId) ||
+              (payload.senderId === args.userId && payload.receiverId === me.id)
+      ),
+    },
+  },
   Query: {
     directMessages: async (parent, { otherUserId }, { models, me }) =>
     models.DirectMessage.findAll(
@@ -12,10 +23,10 @@ export default {
         where: {
           [models.sequelize.Op.or]: [
             {
-              [models.sequelize.Op.and]: [{ reciverId: otherUserId }, { senderId: me.id }],
+              [models.sequelize.Op.and]: [{ receiverId: otherUserId }, { senderId: me.id }],
             },
             {
-              [models.sequelize.Op.and]: [{ reciverId: me.id }, { senderId: otherUserId }],
+              [models.sequelize.Op.and]: [{ receiverId: me.id }, { senderId: otherUserId }],
             },
           ],
         },
@@ -32,6 +43,17 @@ export default {
           ...args,
           senderId: me.id,
         });
+        
+        pubsub.publish(EVENTS.MESSAGE.CREATED, {
+          senderId: me.id,
+          receiverId: args.receiverId,
+          newDirectMessage: {
+            ...directMessage.dataValues,
+            sender: {
+              username: me.username,
+            },
+          },
+        });
         return true;
       } catch (err) {
         console.log(err);
@@ -41,11 +63,13 @@ export default {
   },
 
   DirectMessage: {
-    sender: async (parent, args, { models }) => {
-      // if (user) return user;
-      // return await models.User.findOne({where: { id: userId }}, { raw: true })
-      console.log(parent)
-      return "sdsadsa"
+    sender: async ({sender, senderId }, args, { models }) => {
+      console.log('SENDER', sender, senderId)
+      if (sender) {
+        return sender;
+      }
+
+      return models.User.findOne({ where: { id: senderId } }, { raw: true });
     },
   },
   // Subscription: {
