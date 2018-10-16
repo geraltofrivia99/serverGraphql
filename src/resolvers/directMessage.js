@@ -10,7 +10,7 @@ export default {
       subscribe: withFilter(
         () => pubsub.asyncIterator(EVENTS.DIRECT.CREATED),
         (payload, args, {me}) => 
-              (payload.senderId === me.id && payload.receiverId === args.userId) ||
+                (payload.senderId === me.id && payload.receiverId === args.userId) ||
               (payload.senderId === args.userId && payload.receiverId === me.id)
       ),
     },
@@ -65,9 +65,9 @@ export default {
   DirectMessage: {
     sender: async ({sender, senderId }, args, { models }) => {
       console.log('SENDER', sender, senderId)
-      if (sender) {
-        return sender;
-      }
+      // if (sender) {
+      //   return sender;
+      // }
 
       return models.User.findOne({ where: { id: senderId } }, { raw: true });
     },

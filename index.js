@@ -28,7 +28,7 @@ const getMe = async req => {
   }
 };
 const getMeConnect = async connection => {
-  const token = connection.context['authorization'];
+  const token = connection.context['token'];
   if (token) {
     try {
       // const d = await jwt.verify(token, 'wr3r23fwfwefwekwself.2456342.dawqdq');
@@ -59,7 +59,7 @@ const server = new ApolloServer({
   context: async ({ req, connection }) => {
     if (connection) {
       const me = await getMeConnect(connection);
-      
+      console.log('hello Connect', connection)
       return {
         models,
         me,
@@ -68,6 +68,7 @@ const server = new ApolloServer({
     }
     if (req) {
       const me = await getMe(req);
+      console.log('hello Req', me)
         return {
           me,
           models,
