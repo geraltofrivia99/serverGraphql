@@ -4,7 +4,7 @@ export default gql`
   extend type Query {
     file(id: ID!): File!
     files: [File!]!
-    userFiles(userId: Int!): [File!]!
+    userFiles: [File!]
   }
   extend type Mutation {
     createFile(url: String!, userId: Int!, type: String!, name: String!): File!

@@ -7,9 +7,9 @@ export default {
     files: async (parent, args, { models }) => {
       return await models.File.findAll();
     },
-    userFiles: async (parent, {userId}, { models }) => {
+    userFiles: async (parent, args, { models, me }) => {
       return await models.File.findAll({
-        where: {userId}
+        where: {userId: me.id}
       });
     },
   },
@@ -33,6 +33,7 @@ export default {
 
   File: {
     user: async (file, args, { models }) => {
+      console.log(file.userId)
       return await models.User.findById(file.userId);
     },
   },
