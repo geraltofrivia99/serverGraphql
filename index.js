@@ -41,6 +41,8 @@ const getMeConnect = async connection => {
   }
 };
 
+app.use('/files', express.static('files'));
+
 const server = new ApolloServer({
   typeDefs: schema,
   resolvers,
@@ -67,7 +69,7 @@ const server = new ApolloServer({
     }
     if (req) {
       const me = await getMe(req);
-      console.log(me)
+      
         return {
           me,
           models,
@@ -115,7 +117,7 @@ const createUsersWithMessages = async date => {
           url: 'dsadas/dsadsae/ewqwe/ewqeqw',
           createdAt: date.setSeconds(date.getSeconds() + 1),
           type: 'Doc',
-          name: 'new File'
+          filename: 'new File'
         },
       ],
     },
@@ -144,19 +146,19 @@ const createUsersWithMessages = async date => {
           url: 'dsadas/dsadsae/ewqwe',
           createdAt: date.setSeconds(date.getSeconds() + 1),
           type: 'Doc',
-          name: 'filic'
+          filename: 'filic'
         },
         {
           url: 'dsadas/dsadsae/gdfgdf',
           createdAt: date.setSeconds(date.getSeconds() + 1),
           type: 'Doc',
-          name: 'hahha'
+          filename: 'hahha'
         },
         {
           url: 'dsadas/dsadsae/eqeqwwqwe',
           createdAt: date.setSeconds(date.getSeconds() + 1),
           type: 'Doc',
-          name: '4toto'
+          filename: '4toto'
         },
       ]
     },
@@ -181,7 +183,7 @@ const createUsersWithMessages = async date => {
           url: 'dsadas/dsadsae/ewqwe/ewqeqw',
           createdAt: date.setSeconds(date.getSeconds() + 1),
           type: 'Doc',
-          name: 'new File'
+          filename: 'new File'
         },
       ],
     },

@@ -18,7 +18,7 @@ const file = (sequelize, DataTypes) => {
         },
       },
     },
-    name: {
+    filename: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: {

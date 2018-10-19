@@ -5,18 +5,27 @@ export default gql`
     file(id: ID!): File!
     files: [File!]!
     userFiles: [File!]
+    uploads: [Filenew]
   }
+  
   extend type Mutation {
     createFile(url: String!, userId: Int!, type: String!, name: String!): File!
     deleteFile(id: ID!): Boolean!
+    singleUpload(file: Upload!): File!
   }
+
 
   type File {
     id: ID!
-    name: String!
+    filename: String!
     url: String!
     user: User!
     createdAt: String!
     type: String!
+  }
+
+  type Filenew {
+    filename: String!
+    url: String!
   }
 `;
