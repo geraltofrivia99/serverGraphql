@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 
 const sequelize = new Sequelize(
-  'postgres', 'postgres', 'postgres',
+  'trash', 'postgres', 'postgres',
   {
     dialect: 'postgres',
     operatorsAliases: Sequelize.Op,

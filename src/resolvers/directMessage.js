@@ -3,6 +3,14 @@
 // import { isAuthenticated, isMessageOwner } from './auth';
 import pubsub, { EVENTS } from '../subscription';
 import { withFilter } from 'graphql-subscriptions';
+import { createWriteStream } from 'fs';
+
+const storeUpload = ({stream, filename}) => new Promise((resolve, reject) => 
+  stream
+    .pipe(createWriteStream(`files/messages/${filename}`))
+    .on("finish", () => resolve())
+    .on("error", reject)
+);
 
 export default {
   Subscription: {
@@ -37,10 +45,19 @@ export default {
   },
 
   Mutation: {
-    createDirectMessage: async (parent, args, { models, me }) => {
+    createDirectMessage: async (parent, {file, ...args}, { models, me }) => {
       try {
+        const messageData = args;
+        console.log('dsadsa', file)
+        if (file) {
+          const { stream, filename, mimetype } = await file;
+          await storeUpload({stream, filename});
+
+          messageData.url = `http://localhost:8000/files/messages/${filename}`;
+          messageData.filetype = mimetype;
+        }
         const directMessage = await models.DirectMessage.create({
-          ...args,
+          ...messageData,
           senderId: me.id,
         });
         

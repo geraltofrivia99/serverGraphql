@@ -42,7 +42,7 @@ const getMeConnect = async connection => {
 };
 
 app.use('/files', express.static('files'));
-
+// app.use('/files/messages', express.static('files/messages'));
 const server = new ApolloServer({
   typeDefs: schema,
   resolvers,
@@ -143,23 +143,23 @@ const createUsersWithMessages = async date => {
       ],
       files: [
         {
-          url: 'dsadas/dsadsae/ewqwe',
+          url: 'http://localhost:8000/files/hello.txt',
           createdAt: date.setSeconds(date.getSeconds() + 1),
-          type: 'Doc',
-          filename: 'filic'
+          type: 'text/plain',
+          filename: 'hello.txt'
         },
-        {
-          url: 'dsadas/dsadsae/gdfgdf',
-          createdAt: date.setSeconds(date.getSeconds() + 1),
-          type: 'Doc',
-          filename: 'hahha'
-        },
-        {
-          url: 'dsadas/dsadsae/eqeqwwqwe',
-          createdAt: date.setSeconds(date.getSeconds() + 1),
-          type: 'Doc',
-          filename: '4toto'
-        },
+        // {
+        //   url: 'dsadas/dsadsae/gdfgdf',
+        //   createdAt: date.setSeconds(date.getSeconds() + 1),
+        //   type: 'Doc',
+        //   filename: 'hahha'
+        // },
+        // {
+        //   url: 'dsadas/dsadsae/eqeqwwqwe',
+        //   createdAt: date.setSeconds(date.getSeconds() + 1),
+        //   type: 'Doc',
+        //   filename: '4toto'
+        // },
       ]
     },
     {
