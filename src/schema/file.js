@@ -1,6 +1,8 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
+
+
   extend type Query {
     file(id: ID!): File!
     files: [File!]!

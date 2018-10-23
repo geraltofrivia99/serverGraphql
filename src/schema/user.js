@@ -22,6 +22,7 @@ export default gql`
     ok: Boolean!
     user: User
     token: String    
+    refreshToken: String
     errors: [Error!]
   }
   type RegisterResponse {

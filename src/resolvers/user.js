@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { combineResolvers } from 'graphql-resolvers';
 import { AuthenticationError, UserInputError } from 'apollo-server';
-
+import {createTokens} from '../../auth';
 import { isAdmin } from './auth';
 
 const createToken = async (user, secret, expiresIn) => {
@@ -49,22 +49,18 @@ export default {
     signIn: async (
       parent,
       { login, password },
-      { models, secret },
-    ) => {
+      { models, SECRET, SECRET2 },
+    ) => 
+    { 
       const user = await models.User.findByLogin(login);
       if (!user) {
-        // throw new UserInputError(
-        //   'No user found with this login credentials.',
-        // );
+        // user with provided email not found
         return {
           ok: false,
-          errors: [{
-            path: 'loggin',
-            message: 'No user found with this login credentials'
-          }]
-        }
+          errors: [{ path: 'email', message: 'Wrong email' }],
+        };
       }
-
+    
       const isValid = await user.validatePassword(password);
 
       if (!isValid) {
@@ -77,12 +73,50 @@ export default {
           }]
         }
       }
-
-      return { 
-        token: createToken(user, secret, '24h'),
-        user,
-        ok: true, 
+    
+      const refreshTokenSecret = user.password + SECRET2;
+    
+      const [token, refreshToken] = await createTokens(user, SECRET, refreshTokenSecret);
+      // console.log('TOKEN', token);
+      // console.log('CREATETOKEN', createToken(user, SECRET, '24h'));
+      return {
+        ok: true,
+        token,
+        refreshToken,
+        user
       };
+      // const user = await models.User.findByLogin(login);
+      // if (!user) {
+      //   // throw new UserInputError(
+      //   //   'No user found with this login credentials.',
+      //   // );
+      //   return {
+      //     ok: false,
+      //     errors: [{
+      //       path: 'loggin',
+      //       message: 'No user found with this login credentials'
+      //     }]
+      //   }
+      // }
+
+      // const isValid = await user.validatePassword(password);
+
+      // if (!isValid) {
+      //   // throw new AuthenticationError('Invalid password.');
+      //   return {
+      //     ok: false,
+      //     errors: [{
+      //       path: 'loggin',
+      //       message: 'Invalid password'
+      //     }]
+      //   }
+      // }
+
+      // return { 
+      //   token: createToken(user, SECRET, '24h'),
+      //   user,
+      //   ok: true, 
+      // };
     },
     deleteUser: combineResolvers(
       isAdmin,

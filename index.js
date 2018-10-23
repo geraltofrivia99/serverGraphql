@@ -1,5 +1,4 @@
 import cors from 'cors';
-
 import express from 'express';
 import { ApolloServer, AuthenticationError, } from 'apollo-server-express';
 import jwt from 'jsonwebtoken';
@@ -8,18 +7,17 @@ import resolvers from './src/resolvers';
 import models, { sequelize } from './src/models';
 import http from 'http';
 
-
+const SECRET = 'wr3r23fwfwefwekwself.2456342.dawqdq';
+const SECRET2 = 'wr3r23fwfwefwekwself.2456342.dawqdq.43242341321rds';
 const app = express();
 
 app.use(cors('*'));
 
-const getMe = async req => {
+const getMe = async (req) => {
   const token = req.headers['authorization'];
-  
   if (token) {
     try {
-      // const d = await jwt.verify(token, 'wr3r23fwfwefwekwself.2456342.dawqdq');
-      return await jwt.verify(token, 'wr3r23fwfwefwekwself.2456342.dawqdq');
+      return await jwt.verify(token, SECRET);
     } catch (e) {
       throw new AuthenticationError(
         'Your session expired. Sign in again.',
@@ -27,12 +25,18 @@ const getMe = async req => {
     }
   }
 };
-const getMeConnect = async connection => {
+const getMeConnect = async (connection) => {
   const token = connection.context['token'];
   if (token) {
     try {
+      // const newTokens = await refreshTokens(token, refreshToken, models, SECRET, SECRET2);
+      // if (newTokens.token && newTokens.refreshToken) {
+        // res.set('Access-Control-Expose-Headers', 'x-token, x-refresh-token');
+        // res.set('x-token', 'HELLO eto x-token');
+        // res.set('x-refresh-token', newTokens.refreshToken);
+      // }
       // const d = await jwt.verify(token, 'wr3r23fwfwefwekwself.2456342.dawqdq');
-      return await jwt.verify(token, 'wr3r23fwfwefwekwself.2456342.dawqdq');
+      return await jwt.verify(token, SECRET);
     } catch (e) {
       throw new AuthenticationError(
         'Your session expired. Sign in again.',
@@ -59,21 +63,25 @@ const server = new ApolloServer({
     };
   },
   context: async ({ req, connection }) => {
+    
     if (connection) {
       const me = await getMeConnect(connection);
+      console.log(me);
       return {
         models,
         me,
-        secret: 'wr3r23fwfwefwekwself.2456342.dawqdq'
+        SECRET,
+        SECRET2
       };
     }
     if (req) {
       const me = await getMe(req);
-      
+      console.log(me);
         return {
           me,
           models,
-          secret: 'wr3r23fwfwefwekwself.2456342.dawqdq'
+          SECRET,
+          SECRET2
     };
     }
   },
@@ -192,3 +200,107 @@ const createUsersWithMessages = async date => {
     },
   );
 };
+// import express from 'express';
+// import bodyParser from 'body-parser';
+// import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
+// import { makeExecutableSchema } from 'graphql-tools';
+// import cors from 'cors';
+// import jwt from 'jsonwebtoken';
+// import { graphqlUploadExpress } from 'graphql-upload'
+// import { createServer } from 'http';
+// import { execute, subscribe } from 'graphql';
+// import { SubscriptionServer } from 'subscriptions-transport-ws';
+// import schema1 from './src/schema';
+// import resolvers from './src/resolvers';
+
+
+// const SECRET = 'wr3r23fwfwefwekwself.2456342.dawqdq';
+// const SECRET2 = 'wr3r23fwfwefwekwself.2456342.dawqdq.43242341321rds';
+
+// const schema = makeExecutableSchema({
+//   typeDefs: schema1,
+//   resolvers,
+// });
+
+// const app = express();
+
+// app.use(cors('*'));
+
+// const addUser = async (req, res, next) => {
+//   const token = req.headers['x-token'];
+//   if (token) {
+//     try {
+//       const { user } = jwt.verify(token, SECRET);
+//       req.user = user;
+//     } catch (err) {
+//       const refreshToken = req.headers['x-refresh-token'];
+//       const newTokens = await refreshTokens(token, refreshToken, models, SECRET, SECRET2);
+//       if (newTokens.token && newTokens.refreshToken) {
+//         res.set('Access-Control-Expose-Headers', 'x-token, x-refresh-token');
+//         res.set('x-token', newTokens.token);
+//         res.set('x-refresh-token', newTokens.refreshToken);
+//       }
+//       req.user = newTokens.user;
+//     }
+//   }
+//   next();
+// };
+
+// app.use(addUser);
+
+// const graphqlEndpoint = '/graphql';
+
+// app.use(
+//   graphqlEndpoint,
+//   graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
+//   bodyParser.json(),
+//   graphqlExpress(req => ({
+//     schema,
+//     context: {
+//       models,
+//       user: req.user,
+//       SECRET,
+//       SECRET2,
+//     },
+//   })),
+// );
+
+// app.use(
+//   '/graphiql',
+//   graphiqlExpress({
+//     endpointURL: graphqlEndpoint,
+//     subscriptionsEndpoint: 'ws://localhost:8000/subscriptions',
+//   }),
+// );
+
+// const server = createServer(app);
+
+// models.sequelize.sync({}).then(() => {
+//   server.listen(8000, () => {
+//     // eslint-disable-next-line no-new
+//     new SubscriptionServer(
+//       {
+//         execute,
+//         subscribe,
+//         schema,
+//         onConnect: async ({ token, refreshToken }, webSocket) => {
+//           if (token && refreshToken) {
+//             try {
+//               const { user } = jwt.verify(token, SECRET);
+//               return { models, user };
+//             } catch (err) {
+//               const newTokens = await refreshTokens(token, refreshToken, models, SECRET, SECRET2);
+//               return { models, user: newTokens.user };
+//             }
+//           }
+
+//           return { models };
+//         },
+//       },
+//       {
+//         server,
+//         path: '/subscriptions',
+//       },
+//     );
+//   });
+// });
