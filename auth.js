@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 export const createTokens = async (user, SECRET, SECRET2) => {
   const { id, email, username, role } = user;
   const createToken = await jwt.sign({ id, email, username, role }, SECRET, {
-    expiresIn: '1h',
+    expiresIn: '7d',
   });
   // const createToken = jwt.sign(
   //   {
