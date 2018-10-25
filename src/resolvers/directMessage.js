@@ -48,7 +48,6 @@ export default {
     createDirectMessage: async (parent, {file, ...args}, { models, me }) => {
       try {
         const messageData = args;
-        console.log('dsadsa', file)
         if (file) {
           const { stream, filename, mimetype } = await file;
           await storeUpload({stream, filename});
