@@ -35,6 +35,16 @@ const user = (sequelize, DataTypes) => {
   User.associate = models => {
     User.hasMany(models.Message, { onDelete: 'CASCADE' });
     User.hasMany(models.File, { onDelete: 'CASCADE' });
+    User.belongsToMany(models.User, {as: 'Friends', through: models.Friends});
+    // User.belongsToMany(models.User, {
+    //   as: "user",
+    //   through: models.Friends
+    // });
+    // User.belongsToMany(models.User, {
+    //   as: "friend",
+    //   through: models.Friends
+    // });
+    
     //  User.belongsToMany(models.Message, { 
     //     through: models.Member,
     //     onDelete: 'CASCADE',

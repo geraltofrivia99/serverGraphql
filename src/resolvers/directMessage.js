@@ -48,7 +48,7 @@ export default {
     createDirectMessage: async (parent, {file, fileUT, ...args}, { models, me }) => {
       try {
         const messageData = args;
-        console.log("First", file)
+        
         if (file) {
           const { stream, filename, mimetype } = await file;
           await storeUpload({stream, filename});
@@ -61,7 +61,7 @@ export default {
           messageData.filetype = type;
           messageData.url = url;
         }
-      console.log("NEXT");
+      
         const directMessage = await models.DirectMessage.create({
           ...messageData,
           senderId: me.id,

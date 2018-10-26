@@ -136,6 +136,15 @@ export default {
         },
       });
     },
+    friends: async (user, args, { models }) => {
+      const { FriendId } = await models.Friends.findOne({});
+      console.log(FriendId);
+      return await models.Friends.findAll({
+        where: {
+          userId: user.id,
+        },
+      });
+    },
     files: async (user, args, { models }) => {
       return await models.File.findAll({
         where: {

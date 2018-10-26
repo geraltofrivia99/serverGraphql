@@ -36,6 +36,7 @@ export default gql`
     password: String!
     messages: [Message!]
     files: [File!]
+    friends: [User!]
     role: String
   }
 `;

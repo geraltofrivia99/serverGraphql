@@ -173,6 +173,8 @@ const createUsersWithMessages = async date => {
       include: [models.Message, models.File],
     },
   );
+  
+  
   await models.User.create(
     {
       username: 'nikita',
@@ -191,6 +193,18 @@ const createUsersWithMessages = async date => {
           createdAt: date.setSeconds(date.getSeconds() + 1),
           type: 'Doc',
           filename: 'new File'
+        },
+        {
+          url: 'dsadas/dsadsadasdsae/ewqwe/ewqeqw',
+          createdAt: date.setSeconds(date.getSeconds() + 1),
+          type: 'Doc',
+          filename: 'new Fisdas'
+        },
+      ],
+      friends: [
+        { 
+          id: 2,
+          name: 'ddavids'
         },
       ],
     },
