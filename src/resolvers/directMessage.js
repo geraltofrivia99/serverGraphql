@@ -45,9 +45,10 @@ export default {
   },
 
   Mutation: {
-    createDirectMessage: async (parent, {file, ...args}, { models, me }) => {
+    createDirectMessage: async (parent, {file, fileUT, ...args}, { models, me }) => {
       try {
         const messageData = args;
+        console.log("First", file)
         if (file) {
           const { stream, filename, mimetype } = await file;
           await storeUpload({stream, filename});
@@ -55,6 +56,12 @@ export default {
           messageData.url = `http://localhost:8000/files/messages/${filename}`;
           messageData.filetype = mimetype;
         }
+        if (fileUT) {
+          const { url, type } = fileUT;
+          messageData.filetype = type;
+          messageData.url = url;
+        }
+      console.log("NEXT");
         const directMessage = await models.DirectMessage.create({
           ...messageData,
           senderId: me.id,

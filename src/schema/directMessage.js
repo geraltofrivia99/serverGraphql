@@ -7,13 +7,12 @@ export default gql`
   }
 
   extend type Mutation {
-    createDirectMessage(receiverId: Int!, text: String, file: Upload, ServerFile: SFile): Boolean!
+    createDirectMessage(receiverId: Int!, text: String, file: Upload, fileUT: SFile): Boolean!
   }
   extend type Subscription {
     newDirectMessage(userId: Int!): DirectMessage!
   }
   
-
   type DirectMessage {
     id: ID!
     text: String
