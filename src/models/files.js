@@ -18,6 +18,15 @@ const file = (sequelize, DataTypes) => {
         },
       },
     },
+    size: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Not doesnt exist',
+        },
+      },
+    },
     filename: {
       type: DataTypes.STRING,
       validate: {

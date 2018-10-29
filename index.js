@@ -153,7 +153,8 @@ const createUsersWithMessages = async date => {
           url: 'http://localhost:8000/files/hello.txt',
           createdAt: date.setSeconds(date.getSeconds() + 1),
           type: 'text/plain',
-          filename: 'hello.txt'
+          filename: 'hello.txt',
+          size: 4000000,
         },
         // {
         //   url: 'dsadas/dsadsae/gdfgdf',

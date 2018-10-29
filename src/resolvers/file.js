@@ -41,9 +41,9 @@ export default {
         return await models.File.destroy({ where: { id } });
       },
     ),
-    singleUpload: async (parent, { file }, {models, me}) => {
+    singleUpload: async (parent, { file, size }, {models, me}) => {
       const { stream, filename, mimetype } = await file;
-      console.log(file)
+      console.log(file);
       await storeUpload({stream, filename});
       
       const url = `http://localhost:8000/files/${filename}`
@@ -51,7 +51,8 @@ export default {
         url,
         userId: me.id,
         filename,
-        type: mimetype
+        type: mimetype,
+        size
       });
       // 1. Validate file metadata.
 
