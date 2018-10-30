@@ -38,5 +38,6 @@ export default gql`
     files: [File!]
     friends: [User!]
     role: String
+    directMessageMembers: [User!]
   }
 `;

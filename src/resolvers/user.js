@@ -145,6 +145,15 @@ export default {
         },
       });
     },
+    directMessageMembers: (_, args, { models, me }) =>
+      models.sequelize.query(
+        'select distinct on (u.id) u.id, u.username from users as u join direct_messages as dm on (u.id = dm.sender_id) or (u.id = dm.receiver_id) where (:currentUserId = dm.sender_id or :currentUserId = dm.receiver_id)',
+        {
+          replacements: { currentUserId: me.id},
+          model: models.User,
+          raw: true,
+        },
+      ),
     files: async (user, args, { models }) => {
       return await models.File.findAll({
         where: {
