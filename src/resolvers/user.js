@@ -17,7 +17,6 @@ export default {
       return await models.User.findAll();
     },
     user: async (parent, { id }, { models, me }) => {
-      console.log('tippppp', typeof id)
       return await models.User.findById(id);
     },
     me: async (parent, args, { models, me }) => {
